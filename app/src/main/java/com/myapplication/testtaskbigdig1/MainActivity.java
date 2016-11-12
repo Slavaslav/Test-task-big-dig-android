@@ -21,13 +21,12 @@ public class MainActivity extends AppCompatActivity implements HistoryFragment.O
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addPage(new TestFragment(), "Test");
-        adapter.addPage(new HistoryFragment(), "History");
+        adapter.addPage(TestFragment.newInstance(), "Test");
+        adapter.addPage(HistoryFragment.newInstance(), "History");
         viewPager.setAdapter(adapter);
     }
 

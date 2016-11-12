@@ -6,16 +6,16 @@
     tools:context="com.myapplication.testtaskbigdig1.TestFragment">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/edit_text_image_uri"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:ems="10"
         android:hint="@string/enter_the_link_to_the_image"
-        android:inputType="text" />
+        android:inputType="text|textUri" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ok" />
