@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">TestTaskBigDig1</string>
     <string name="enter_the_link_to_the_image">Enter the link to the image</string>
-    <string name="ok">Ok</string>
+    <string name="button_ok">Ok</string>
+    <string name="name_package_application_b">com.myapplication.testtaskbigdig2</string>
+    <string name="application_b_not_found">Application B not found.</string>
 </resources>

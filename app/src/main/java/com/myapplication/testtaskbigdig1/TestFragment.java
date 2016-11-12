@@ -1,6 +1,8 @@
 package com.myapplication.testtaskbigdig1;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -36,13 +38,11 @@ public class TestFragment extends Fragment {
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast toast = Toast.makeText(getActivity(), "Ok", Toast.LENGTH_SHORT);
-                toast.show();
+                startTaskBigDig2();
             }
         });
         return view;
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -62,5 +62,18 @@ public class TestFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
+    }
+
+    private void startTaskBigDig2() {
+        Context ctx = getActivity();
+        try {
+            Intent i = ctx.getPackageManager().getLaunchIntentForPackage(getString(R.string.name_package_application_b));
+            if (i == null)
+                throw new PackageManager.NameNotFoundException();
+            startActivity(i);
+        } catch (PackageManager.NameNotFoundException e) {
+            Toast toast = Toast.makeText(ctx, R.string.application_b_not_found, Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 }
