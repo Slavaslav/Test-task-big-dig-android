@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TestTaskBigDig1</string>
+    <string name="enter_the_link_to_the_image">Enter the link to the image</string>
+    <string name="ok">Ok</string>
 </resources>
