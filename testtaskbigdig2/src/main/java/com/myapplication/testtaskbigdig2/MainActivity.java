@@ -19,7 +19,10 @@ public class MainActivity extends AppCompatActivity {
         if (Intent.ACTION_SEND.equals(action)) {
             String uri = intent.getStringExtra(Intent.EXTRA_TEXT);
             if (uri != null) {
-                // add to database
+                // test
+                ContentProviderHelper provider = new ContentProviderHelper(this);
+                provider.insert(uri, (byte) 1, "12.12.12");
+                provider.getAllImagesData();
             }
         } else {
             // autoclose
