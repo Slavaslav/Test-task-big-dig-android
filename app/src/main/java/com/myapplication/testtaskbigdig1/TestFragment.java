@@ -61,9 +61,6 @@ public class TestFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-    }
-
     private void startTaskBigDig2(String editText) {
         Context ctx = getActivity();
         try {
@@ -77,5 +74,8 @@ public class TestFragment extends Fragment {
             Toast toast = Toast.makeText(ctx, R.string.application_b_not_found, Toast.LENGTH_SHORT);
             toast.show();
         }
+    }
+
+    public interface OnFragmentInteractionListener {
     }
 }
