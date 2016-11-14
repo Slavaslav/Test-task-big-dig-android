@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">TestTaskBigDig2</string>
-    <string name="no_image">On this reference there is no image</string>
+    <string name="no_image">A link does not point to an image</string>
     <string name="error_handling_uri">Error during handling uri</string>
+    <string name="image_successfully_downloaded">Image successfully downloaded</string>
 </resources>

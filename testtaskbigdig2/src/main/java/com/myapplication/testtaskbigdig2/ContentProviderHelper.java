@@ -17,7 +17,6 @@ public class ContentProviderHelper {
         this.context = context;
     }
 
-    //read data froma database
     public void getAllImagesData() {
         Cursor c = context.getContentResolver().query(IMAGE_CONTENT_URI, null, null, null, null);
         if (c.moveToFirst()) {
@@ -32,7 +31,6 @@ public class ContentProviderHelper {
     }
 
     public void insert(String uri, byte status, String date) {
-        //write data to database
         ContentValues contentValues = new ContentValues();
         contentValues.put(IMAGE_COLUMN_URI, uri);
         contentValues.put(IMAGE_COLUMN_STATUS, status);
