@@ -1,8 +1,6 @@
 package com.myapplication.testtaskbigdig1;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class TestFragment extends Fragment {
 
@@ -42,8 +39,10 @@ public class TestFragment extends Fragment {
                 if (text.isEmpty()) {
                     editText.setError(getString(R.string.field_cannot_be_empty));
                 } else {
-                    startTaskBigDig2(editText.getText().toString());
+                    Bundle bundle = new Bundle();
+                    bundle.putString(BigDigProvider.IMAGE_COLUMN_URI, editText.getText().toString());
                     editText.setText("");
+                    mListener.startTaskBigDig2(bundle);
                 }
             }
         });
@@ -67,21 +66,7 @@ public class TestFragment extends Fragment {
         mListener = null;
     }
 
-    private void startTaskBigDig2(String editText) {
-        Context ctx = getActivity();
-        try {
-            Intent i = ctx.getPackageManager().getLaunchIntentForPackage(getString(R.string.name_package_application_b));
-            if (i == null)
-                throw new PackageManager.NameNotFoundException();
-            i.setAction(Intent.ACTION_SEND);
-            i.putExtra(Intent.EXTRA_TEXT, editText);
-            startActivity(i);
-        } catch (PackageManager.NameNotFoundException e) {
-            Toast toast = Toast.makeText(ctx, R.string.application_b_not_found, Toast.LENGTH_SHORT);
-            toast.show();
-        }
-    }
-
     public interface OnFragmentInteractionListener {
+        void startTaskBigDig2(Bundle bundle);
     }
 }

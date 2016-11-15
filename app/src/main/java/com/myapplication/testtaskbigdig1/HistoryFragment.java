@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,6 +49,16 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
         adapter = new HistoryAdapter(getActivity(), null, false);
         listView.setAdapter(adapter);
         getActivity().getSupportLoaderManager().initLoader(0, null, this);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ViewHolder holder = (ViewHolder) view.getTag();
+                Bundle bundle = new Bundle();
+                bundle.putString(BigDigProvider.IMAGE_COLUMN_ID, String.valueOf(holder.id));
+                bundle.putString(BigDigProvider.IMAGE_COLUMN_URI, holder.textUri.toString());
+                mListener.startTaskBigDig2(bundle);
+            }
+        });
         return view;
     }
 
@@ -114,6 +125,7 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     public interface OnFragmentInteractionListener {
+        void startTaskBigDig2(Bundle bundle);
     }
 
     private class HistoryAdapter extends CursorAdapter {
@@ -136,6 +148,8 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
         public void bindView(View view, Context context, Cursor cursor) {
             ViewHolder holder = (ViewHolder) view.getTag();
             if (holder != null) {
+                int id = cursor.getInt(cursor.getColumnIndex(BigDigProvider.IMAGE_COLUMN_ID));
+                holder.id = id;
                 String sUri = cursor.getString(cursor.getColumnIndex(BigDigProvider.IMAGE_COLUMN_URI));
                 holder.textUri.setText(sUri);
                 int status = cursor.getInt(cursor.getColumnIndex(BigDigProvider.IMAGE_COLUMN_STATUS));
@@ -154,10 +168,11 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
                 holder.uriContainer.setBackgroundColor(color);
             }
         }
+    }
 
-        class ViewHolder {
-            TextView textUri;
-            FrameLayout uriContainer;
-        }
+    class ViewHolder {
+        int id;
+        TextView textUri;
+        FrameLayout uriContainer;
     }
 }
