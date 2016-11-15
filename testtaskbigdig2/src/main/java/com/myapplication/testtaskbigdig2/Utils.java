@@ -2,8 +2,11 @@ package com.myapplication.testtaskbigdig2;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Patterns;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -34,5 +37,20 @@ public class Utils {
             }
         }
         return bitmap;
+    }
+
+    static void saveImage(Bitmap bitmap, int id) throws IOException {
+        String pathStorage = Environment.getExternalStorageDirectory().getAbsolutePath();
+        File dir = new File(pathStorage + "/BIGDIG/test/B");
+        dir.mkdirs();
+        String fileName = "Image-" + id + ".jpg";
+        File file = new File(dir, fileName);
+        if (file.exists()) {
+            file.delete();
+        }
+        FileOutputStream out = new FileOutputStream(file);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+        out.flush();
+        out.close();
     }
 }

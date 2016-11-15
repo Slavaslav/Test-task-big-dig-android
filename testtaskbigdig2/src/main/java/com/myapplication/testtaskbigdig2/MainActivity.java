@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     ImageView imageView;
@@ -47,16 +49,22 @@ public class MainActivity extends AppCompatActivity {
         imageView.setImageBitmap(bitmap);
     }
 
-    private void deleteImageFromDbAndSave(final int id, Bitmap bitmap) {
+    private void deleteImageFromDbAndSave(final int id, final Bitmap bitmap) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        // delete
                         ContentProviderHelper.delete(MainActivity.this, id);
                         Toast.makeText(MainActivity.this, R.string.link_was_removed, Toast.LENGTH_LONG).show();
                         // save bitmap
+                        try {
+                            Utils.saveImage(bitmap, id);
+                        } catch (IOException e) {
+                            Toast.makeText(MainActivity.this, R.string.error_saving_image, Toast.LENGTH_LONG).show();
+                        }
                     }
                 }, 15000);
             }
