@@ -20,19 +20,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         imageView = (ImageView) findViewById(R.id.imageView);
-        handleStartup();
+        handleIntent();
     }
 
-    private void handleStartup() {
+    private void handleIntent() {
         Intent intent = getIntent();
         String action = intent.getAction();
         if (Intent.ACTION_SEND.equals(action)) {
-            String uri = intent.getStringExtra(Intent.EXTRA_TEXT);
-            if (uri != null) {
-                new DownloadImage().execute(uri);
-                /*ContentProviderHelper provider = new ContentProviderHelper(this);
-                provider.insert(uri, (byte) 1, "12.12.12");
-                provider.getAllImagesData();*/
+            Bundle bundle = intent.getExtras();
+            String id = (String) bundle.get(ContentProviderHelper.IMAGE_COLUMN_ID);
+            String uri = (String) bundle.get(ContentProviderHelper.IMAGE_COLUMN_URI);
+            String status = (String) bundle.get(ContentProviderHelper.IMAGE_COLUMN_STATUS);
+            if (id != null) {
+                new HandleURIImage().execute(uri, id, status);
+            } else {
+                new HandleURIImage().execute(uri);
             }
         } else {
             // autoclose
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         imageView.setImageBitmap(bitmap);
     }
 
-    private class DownloadImage extends AsyncTask<String, String, Bitmap> {
+    private class HandleURIImage extends AsyncTask<String, String, Bitmap> {
 
         @Override
         protected void onPreExecute() {
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Bitmap doInBackground(String... strings) {
-            String uri = strings[0];
+           /* String uri = strings[0];
             int status;
             String toastMessage = null;
             ContentProviderHelper provider = new ContentProviderHelper(MainActivity.this);
@@ -72,6 +74,43 @@ public class MainActivity extends AppCompatActivity {
                 status = 2;
             }
             provider.insert(uri, (byte) status, Utils.getDateTime());
+            publishProgress(toastMessage);
+            return bitmap;*/
+
+            int successful = 1;
+            int error = 2;
+            int unknown = 3;
+
+            String uri = strings[0];
+            int status;
+            String toastMessage = null;
+            ContentProviderHelper provider = new ContentProviderHelper(MainActivity.this);
+            Bitmap bitmap = null;
+            try {
+                bitmap = Utils.downloadImage(uri);
+                if (bitmap == null) {
+                    toastMessage = getString(R.string.no_image);
+                    status = unknown;
+                } else {
+                    //toastMessage = getString(R.string.image_successfully_downloaded);
+                    status = successful;
+                }
+            } catch (java.io.IOException e) {
+                toastMessage = getString(R.string.error_handling_uri);
+                status = error;
+            }
+
+            if (strings.length == 1) {
+                provider.insert(uri, (byte) status, Utils.getDateTime());
+            } else if (strings.length > 1) {
+                int oldStatus = Integer.parseInt(strings[2]);
+                if (oldStatus == successful && oldStatus == status) {
+                    // delete row from db
+                } else if (oldStatus != status) {
+                    int id = Integer.parseInt(strings[1]);
+                    provider.update(id, (byte) status, Utils.getDateTime());
+                }
+            }
             publishProgress(toastMessage);
             return bitmap;
         }

@@ -55,7 +55,8 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
                 ViewHolder holder = (ViewHolder) view.getTag();
                 Bundle bundle = new Bundle();
                 bundle.putString(BigDigProvider.IMAGE_COLUMN_ID, String.valueOf(holder.id));
-                bundle.putString(BigDigProvider.IMAGE_COLUMN_URI, holder.textUri.toString());
+                bundle.putString(BigDigProvider.IMAGE_COLUMN_URI, holder.textUri.getText().toString());
+                bundle.putString(BigDigProvider.IMAGE_COLUMN_STATUS, String.valueOf(holder.status));
                 mListener.startTaskBigDig2(bundle);
             }
         });
@@ -148,8 +149,8 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
         public void bindView(View view, Context context, Cursor cursor) {
             ViewHolder holder = (ViewHolder) view.getTag();
             if (holder != null) {
-                int id = cursor.getInt(cursor.getColumnIndex(BigDigProvider.IMAGE_COLUMN_ID));
-                holder.id = id;
+                holder.id = cursor.getInt(cursor.getColumnIndex(BigDigProvider.IMAGE_COLUMN_ID));
+                holder.status = (byte) cursor.getInt(cursor.getColumnIndex(BigDigProvider.IMAGE_COLUMN_STATUS));
                 String sUri = cursor.getString(cursor.getColumnIndex(BigDigProvider.IMAGE_COLUMN_URI));
                 holder.textUri.setText(sUri);
                 int status = cursor.getInt(cursor.getColumnIndex(BigDigProvider.IMAGE_COLUMN_STATUS));
@@ -172,6 +173,7 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
 
     class ViewHolder {
         int id;
+        byte status;
         TextView textUri;
         FrameLayout uriContainer;
     }
