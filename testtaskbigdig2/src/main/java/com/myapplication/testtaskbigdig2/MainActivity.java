@@ -6,17 +6,21 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     ImageView imageView;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         imageView = (ImageView) findViewById(R.id.imageView);
+        textView = (TextView) findViewById(R.id.textView);
         handleIntent();
     }
 
@@ -41,8 +46,30 @@ public class MainActivity extends AppCompatActivity {
                 new HandleURIImage().execute(uri);
             }
         } else if (Intent.ACTION_MAIN.equals(action)) {
-            // autoclose
+            closeApplicationByTimer();
         }
+    }
+
+    private void closeApplicationByTimer() {
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                textView.setText(getString(R.string.is_not_standalone_application, msg.what));
+            }
+        };
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 10; i >= 1; i--) {
+                    handler.sendEmptyMessage(i);
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch (InterruptedException e) {
+                    }
+                }
+                finish();
+            }
+        }).start();
     }
 
     private void showImage(Bitmap bitmap) {
