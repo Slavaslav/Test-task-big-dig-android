@@ -18,6 +18,9 @@ public class BigDigProvider extends ContentProvider {
     static final String IMAGE_COLUMN_URI = "uri";
     static final String IMAGE_COLUMN_STATUS = "status";
     static final String IMAGE_COLUMN_DATE = "date";
+    static final String ASC = " ASC";
+    static final String DESC = " DESC";
+    static final String SORT = "sort";
     private static final int IMAGES = 1;
     private static final int IMAGE_ID = 2;
     private static final UriMatcher uriMatcher;
@@ -33,11 +36,12 @@ public class BigDigProvider extends ContentProvider {
     private static final String IMAGE_PATH = "images";
     static final Uri IMAGE_CONTENT_URI = Uri.parse("content://"
             + PROVIDER_NAME + "/" + IMAGE_PATH);
-
     private static final String CONTACT_CONTENT_TYPE = "vnd.android.cursor.dir/vnd."
             + PROVIDER_NAME + "." + IMAGE_PATH;
     private static final String CONTACT_CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd."
             + PROVIDER_NAME + "." + IMAGE_PATH;
+    private static final String UNSUPPORTED_URI = "Unsupported URI: ";
+    private static final String AND = " AND ";
 
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -60,7 +64,7 @@ public class BigDigProvider extends ContentProvider {
         switch (uriMatcher.match(uri)) {
             case IMAGES:
                 if (TextUtils.isEmpty(s1)) {
-                    s1 = IMAGE_COLUMN_ID + " ASC";
+                    s1 = IMAGE_COLUMN_ID + ASC;
                 }
                 break;
             case IMAGE_ID:
@@ -68,11 +72,11 @@ public class BigDigProvider extends ContentProvider {
                 if (TextUtils.isEmpty(s)) {
                     s = IMAGE_COLUMN_ID + " = " + id;
                 } else {
-                    s = s + " AND " + IMAGE_COLUMN_ID + " = " + id;
+                    s = s + AND + IMAGE_COLUMN_ID + " = " + id;
                 }
                 break;
             default:
-                throw new IllegalArgumentException("Unsupported URI: " + uri);
+                throw new IllegalArgumentException(UNSUPPORTED_URI + uri);
         }
         Cursor cursor = db.query(IMAGE_TABLE_NAME, strings, s,
                 strings1, null, null, s1);
@@ -90,7 +94,7 @@ public class BigDigProvider extends ContentProvider {
             case IMAGE_ID:
                 return CONTACT_CONTENT_ITEM_TYPE;
             default:
-                throw new IllegalArgumentException("Unsupported URI: " + uri);
+                throw new IllegalArgumentException(UNSUPPORTED_URI + uri);
         }
     }
 
@@ -98,7 +102,7 @@ public class BigDigProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
         if (uriMatcher.match(uri) != IMAGES)
-            throw new IllegalArgumentException("Unsupported URI: " + uri);
+            throw new IllegalArgumentException(UNSUPPORTED_URI + uri);
         long rowID = db.insert(IMAGE_TABLE_NAME, "", contentValues);
         Uri resultUri = ContentUris.withAppendedId(IMAGE_CONTENT_URI, rowID);
         getContext().getContentResolver().notifyChange(resultUri, null);
@@ -113,11 +117,11 @@ public class BigDigProvider extends ContentProvider {
                 if (TextUtils.isEmpty(s)) {
                     s = IMAGE_COLUMN_ID + " = " + id;
                 } else {
-                    s = s + " AND " + IMAGE_COLUMN_ID + " = " + id;
+                    s = s + AND + IMAGE_COLUMN_ID + " = " + id;
                 }
                 break;
             default:
-                throw new IllegalArgumentException("Unsupported URI: " + uri);
+                throw new IllegalArgumentException(UNSUPPORTED_URI + uri);
         }
         int countRows = db.delete(IMAGE_TABLE_NAME, s, strings);
         getContext().getContentResolver().notifyChange(uri, null);
@@ -132,11 +136,11 @@ public class BigDigProvider extends ContentProvider {
                 if (TextUtils.isEmpty(s)) {
                     s = IMAGE_COLUMN_ID + " = " + id;
                 } else {
-                    s = s + " AND " + IMAGE_COLUMN_ID + " = " + id;
+                    s = s + AND + IMAGE_COLUMN_ID + " = " + id;
                 }
                 break;
             default:
-                throw new IllegalArgumentException("Unsupported URI: " + uri);
+                throw new IllegalArgumentException(UNSUPPORTED_URI + uri);
         }
         int countRows = db.update(IMAGE_TABLE_NAME, contentValues, s, strings);
         getContext().getContentResolver().notifyChange(uri, null);

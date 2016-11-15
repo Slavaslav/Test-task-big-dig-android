@@ -27,20 +27,32 @@ public class MainActivity extends AppCompatActivity implements HistoryFragment.O
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addPage(TestFragment.newInstance(), "Test");
-        adapter.addPage(HistoryFragment.newInstance(), "History");
+        adapter.addPage(TestFragment.newInstance(), getString(R.string.test));
+        adapter.addPage(HistoryFragment.newInstance(), getString(R.string.history));
         viewPager.setAdapter(adapter);
     }
 
-    private class ViewPagerAdapter extends FragmentPagerAdapter {
-        ArrayList<Fragment> fragments = new ArrayList<>();
-        ArrayList<String> pageNames = new ArrayList<>();
+    public void startTaskBigDig2(Bundle bundle) {
+        Intent i = getPackageManager().getLaunchIntentForPackage(getString(R.string.name_package_application_b));
+        if (i == null) {
+            Toast toast = Toast.makeText(this, R.string.application_b_not_found, Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            i.setAction(Intent.ACTION_SEND);
+            i.putExtras(bundle);
+            startActivity(i);
+        }
+    }
 
-        public ViewPagerAdapter(FragmentManager fm) {
+    private class ViewPagerAdapter extends FragmentPagerAdapter {
+        final ArrayList<Fragment> fragments = new ArrayList<>();
+        final ArrayList<String> pageNames = new ArrayList<>();
+
+        ViewPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
-        public void addPage(Fragment fragment, String pageName) {
+        void addPage(Fragment fragment, String pageName) {
             fragments.add(fragment);
             pageNames.add(pageName);
         }
@@ -60,17 +72,4 @@ public class MainActivity extends AppCompatActivity implements HistoryFragment.O
             return pageNames.get(position);
         }
     }
-
-    public void startTaskBigDig2(Bundle bundle) {
-        Intent i = getPackageManager().getLaunchIntentForPackage(getString(R.string.name_package_application_b));
-        if (i == null) {
-            Toast toast = Toast.makeText(this, R.string.application_b_not_found, Toast.LENGTH_SHORT);
-            toast.show();
-        } else {
-            i.setAction(Intent.ACTION_SEND);
-            i.putExtras(bundle);
-            startActivity(i);
-        }
-    }
-
 }

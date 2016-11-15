@@ -2,7 +2,6 @@
     <string name="app_name">TestTaskBigDig2</string>
     <string name="no_image">A link does not point to an image</string>
     <string name="error_handling_uri">Error during handling uri</string>
-    <string name="image_successfully_downloaded">Image successfully downloaded</string>
     <string name="link_was_removed">The link was removed</string>
     <string name="error_saving_image">Error while saving image</string>
     <string name="is_not_standalone_application">The app is not a standalone application, and the application will be closed after %1$d s </string>

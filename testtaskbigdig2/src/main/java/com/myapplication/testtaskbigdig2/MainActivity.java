@@ -18,9 +18,9 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
-    ProgressBar progressBar;
-    ImageView imageView;
-    TextView textView;
+    private ProgressBar progressBar;
+    private ImageView imageView;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

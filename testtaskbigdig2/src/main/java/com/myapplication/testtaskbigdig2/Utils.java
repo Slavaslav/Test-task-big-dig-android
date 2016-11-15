@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Matcher;
 
-public class Utils {
+class Utils {
     static String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "dd-MM-yyyy HH:mm:ss", Locale.getDefault());

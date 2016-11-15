@@ -4,14 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 
-public class ContentProviderHelper {
+class ContentProviderHelper {
     static final String IMAGE_COLUMN_ID = "_id";
     static final String IMAGE_COLUMN_URI = "uri";
     static final String IMAGE_COLUMN_STATUS = "status";
     private static final Uri IMAGE_CONTENT_URI = Uri.parse("content://com.myapplication.testtaskbigdig1.provider.BigGig/images");
     private static final String IMAGE_COLUMN_DATE = "date";
 
-    public static void insert(Context context, String uri, byte status, String date) {
+    static void insert(Context context, String uri, byte status, String date) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(IMAGE_COLUMN_URI, uri);
         contentValues.put(IMAGE_COLUMN_STATUS, status);
@@ -19,7 +19,7 @@ public class ContentProviderHelper {
         context.getContentResolver().insert(IMAGE_CONTENT_URI, contentValues);
     }
 
-    public static void update(Context context, int id, byte status, String date) {
+    static void update(Context context, int id, byte status, String date) {
         Uri uriWithId = Uri.parse(IMAGE_CONTENT_URI.toString() + "/" + id);
         ContentValues contentValues = new ContentValues();
         contentValues.put(IMAGE_COLUMN_STATUS, status);
@@ -27,7 +27,7 @@ public class ContentProviderHelper {
         context.getContentResolver().update(uriWithId, contentValues, null, null);
     }
 
-    public static void delete(Context context, int id) {
+    static void delete(Context context, int id) {
         Uri uriWithId = Uri.parse(IMAGE_CONTENT_URI.toString() + "/" + id);
         context.getContentResolver().delete(uriWithId, null, null);
     }

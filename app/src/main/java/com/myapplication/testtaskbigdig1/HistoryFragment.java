@@ -21,9 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class HistoryFragment extends Fragment implements LoaderManager.LoaderCallbacks {
-    public static final String SORT = "sort";
-    public static final String DESC = " DESC";
-    public static final String ASC = " ASC";
+
     private HistoryAdapter adapter;
     private OnFragmentInteractionListener mListener;
 
@@ -93,14 +91,14 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
         String sort = null;
         switch (id) {
             case R.id.sort_by_date:
-                sort = BigDigProvider.IMAGE_COLUMN_DATE + DESC;
+                sort = BigDigProvider.IMAGE_COLUMN_DATE + BigDigProvider.DESC;
                 break;
             case R.id.sort_by_status:
-                sort = BigDigProvider.IMAGE_COLUMN_STATUS + ASC;
+                sort = BigDigProvider.IMAGE_COLUMN_STATUS + BigDigProvider.ASC;
                 break;
         }
         if (sort != null) {
-            bundle.putString(SORT, sort);
+            bundle.putString(BigDigProvider.SORT, sort);
             getActivity().getSupportLoaderManager().restartLoader(0, bundle, this);
         }
         return super.onOptionsItemSelected(item);
@@ -110,7 +108,7 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
     public Loader onCreateLoader(int id, Bundle args) {
         String sort = null;
         if (args != null) {
-            sort = (String) args.get(SORT);
+            sort = (String) args.get(BigDigProvider.SORT);
         }
         return new CursorLoader(getActivity(), BigDigProvider.IMAGE_CONTENT_URI, null, null, null, sort);
     }
@@ -131,7 +129,7 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
 
     private class HistoryAdapter extends CursorAdapter {
 
-        public HistoryAdapter(Context context, Cursor c, boolean autoRequery) {
+        HistoryAdapter(Context context, Cursor c, boolean autoRequery) {
             super(context, c, autoRequery);
         }
 
