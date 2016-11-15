@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class HistoryFragment extends Fragment implements LoaderManager.LoaderCallbacks {
+    public static final String SORT = "sort";
+    public static final String ASC = " ASC";
     private HistoryAdapter adapter;
     private OnFragmentInteractionListener mListener;
 
@@ -74,18 +76,30 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        Bundle bundle = new Bundle();
+        String sort = null;
         switch (id) {
             case R.id.sort_by_date:
+                sort = BigDigProvider.IMAGE_COLUMN_DATE + ASC;
                 break;
             case R.id.sort_by_status:
+                sort = BigDigProvider.IMAGE_COLUMN_STATUS + ASC;
                 break;
+        }
+        if (sort != null) {
+            bundle.putString(SORT, sort);
+            getActivity().getSupportLoaderManager().restartLoader(0, bundle, this);
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(getActivity(), BigDigProvider.IMAGE_CONTENT_URI, null, null, null, null);
+        String sort = null;
+        if (args != null) {
+            sort = (String) args.get(SORT);
+        }
+        return new CursorLoader(getActivity(), BigDigProvider.IMAGE_CONTENT_URI, null, null, null, sort);
     }
 
     @Override
