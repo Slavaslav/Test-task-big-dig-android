@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 public class HistoryFragment extends Fragment implements LoaderManager.LoaderCallbacks {
     public static final String SORT = "sort";
+    public static final String DESC = " DESC";
     public static final String ASC = " ASC";
     private HistoryAdapter adapter;
     private OnFragmentInteractionListener mListener;
@@ -80,7 +81,7 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
         String sort = null;
         switch (id) {
             case R.id.sort_by_date:
-                sort = BigDigProvider.IMAGE_COLUMN_DATE + ASC;
+                sort = BigDigProvider.IMAGE_COLUMN_DATE + DESC;
                 break;
             case R.id.sort_by_status:
                 sort = BigDigProvider.IMAGE_COLUMN_STATUS + ASC;

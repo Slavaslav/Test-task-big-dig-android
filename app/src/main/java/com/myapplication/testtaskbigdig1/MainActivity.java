@@ -21,34 +21,6 @@ public class MainActivity extends AppCompatActivity implements HistoryFragment.O
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
-
-        /*//write data to database
-        ContentValues cv = new ContentValues();
-        for (int i = 1; i <= 3; i++) {
-            cv.put(BigDigProvider.IMAGE_COLUMN_URI, "http://goole.com.uaq/" + i);
-            cv.put(BigDigProvider.IMAGE_COLUMN_STATUS, i);
-            cv.put(BigDigProvider.IMAGE_COLUMN_DATE, "14.11.201" + i);
-            getContentResolver().insert(BigDigProvider.IMAGE_CONTENT_URI, cv);
-        }
-
-        //read data froma database
-        Cursor c = getContentResolver().query(BigDigProvider.IMAGE_CONTENT_URI, null, null, null, null);
-        if (c.moveToFirst()) {
-            int idColIndex = c.getColumnIndex(BigDigProvider.IMAGE_COLUMN_ID);
-            int uriColIndex = c.getColumnIndex(BigDigProvider.IMAGE_COLUMN_URI);
-            int statusColIndex = c.getColumnIndex(BigDigProvider.IMAGE_COLUMN_STATUS);
-            int dateColIndex = c.getColumnIndex(BigDigProvider.IMAGE_COLUMN_DATE);
-            do {
-                System.out.println(String.format("id = %d, uri = %s, status = %d, date = %s", c.getInt(idColIndex), c.getString(uriColIndex), c.getInt(statusColIndex), c.getString(dateColIndex)));
-            } while (c.moveToNext());
-        }*/
-
-        // clear table
-        /*BigDigProvider.DBHelper dbHelper = new BigDigProvider.DBHelper(this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        db.execSQL("delete from " + BigDigProvider.IMAGE_TABLE_NAME);
-        db.close();
-        dbHelper.close();*/
     }
 
     private void setupViewPager(ViewPager viewPager) {

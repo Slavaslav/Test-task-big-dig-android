@@ -38,8 +38,13 @@ public class TestFragment extends Fragment {
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startTaskBigDig2(editText.getText().toString());
-                editText.setText("");
+                String text = editText.getText().toString();
+                if (text.isEmpty()) {
+                    editText.setError(getString(R.string.field_cannot_be_empty));
+                } else {
+                    startTaskBigDig2(editText.getText().toString());
+                    editText.setText("");
+                }
             }
         });
         return view;
