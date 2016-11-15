@@ -1,9 +1,11 @@
 package com.myapplication.testtaskbigdig2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 new HandleURIImage().execute(uri);
             }
-        } else {
+        } else if (Intent.ACTION_MAIN.equals(action)) {
             // autoclose
         }
     }
@@ -45,7 +47,24 @@ public class MainActivity extends AppCompatActivity {
         imageView.setImageBitmap(bitmap);
     }
 
-    private class HandleURIImage extends AsyncTask<String, String, Bitmap> {
+    private void deleteImageFromDbAndSave(final int id, Bitmap bitmap) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ContentProviderHelper.delete(MainActivity.this, id);
+                        Toast.makeText(MainActivity.this, R.string.link_was_removed, Toast.LENGTH_LONG).show();
+                        // save bitmap
+                    }
+                }, 15000);
+            }
+        });
+    }
+
+    private class HandleURIImage extends AsyncTask<String, String, String> {
+        Bitmap bitmap;
 
         @Override
         protected void onPreExecute() {
@@ -54,29 +73,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Bitmap doInBackground(String... strings) {
-           /* String uri = strings[0];
-            int status;
-            String toastMessage = null;
-            ContentProviderHelper provider = new ContentProviderHelper(MainActivity.this);
-            Bitmap bitmap = null;
-            try {
-                bitmap = Utils.downloadImage(uri);
-                if (bitmap == null) {
-                    toastMessage = getString(R.string.no_image);
-                    status = 3;
-                } else {
-                    //toastMessage = getString(R.string.image_successfully_downloaded);
-                    status = 1;
-                }
-            } catch (java.io.IOException e) {
-                toastMessage = getString(R.string.error_handling_uri);
-                status = 2;
-            }
-            provider.insert(uri, (byte) status, Utils.getDateTime());
-            publishProgress(toastMessage);
-            return bitmap;*/
-
+        protected String doInBackground(String... strings) {
+            Context ctx = MainActivity.this;
             int successful = 1;
             int error = 2;
             int unknown = 3;
@@ -84,49 +82,40 @@ public class MainActivity extends AppCompatActivity {
             String uri = strings[0];
             int status;
             String toastMessage = null;
-            ContentProviderHelper provider = new ContentProviderHelper(MainActivity.this);
-            Bitmap bitmap = null;
             try {
                 bitmap = Utils.downloadImage(uri);
                 if (bitmap == null) {
                     toastMessage = getString(R.string.no_image);
                     status = unknown;
                 } else {
-                    //toastMessage = getString(R.string.image_successfully_downloaded);
                     status = successful;
                 }
-            } catch (java.io.IOException e) {
+            } catch (Exception e) {
                 toastMessage = getString(R.string.error_handling_uri);
                 status = error;
             }
 
             if (strings.length == 1) {
-                provider.insert(uri, (byte) status, Utils.getDateTime());
+                ContentProviderHelper.insert(ctx, uri, (byte) status, Utils.getDateTime());
             } else if (strings.length > 1) {
                 int oldStatus = Integer.parseInt(strings[2]);
+                int id = Integer.parseInt(strings[1]);
                 if (oldStatus == successful && oldStatus == status) {
-                    // delete row from db
+                    deleteImageFromDbAndSave(id, bitmap);
                 } else if (oldStatus != status) {
-                    int id = Integer.parseInt(strings[1]);
-                    provider.update(id, (byte) status, Utils.getDateTime());
+                    ContentProviderHelper.update(ctx, id, (byte) status, Utils.getDateTime());
                 }
             }
-            publishProgress(toastMessage);
-            return bitmap;
+            return toastMessage;
         }
 
         @Override
-        protected void onProgressUpdate(String... values) {
-            super.onProgressUpdate(values);
-            if (values != null && values[0] != null) {
-                Toast.makeText(MainActivity.this, values[0], Toast.LENGTH_LONG).show();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
+        protected void onPostExecute(String toastMessage) {
+            super.onPostExecute(toastMessage);
             progressBar.setVisibility(View.GONE);
+            if (toastMessage != null) {
+                Toast.makeText(MainActivity.this, toastMessage, Toast.LENGTH_LONG).show();
+            }
             if (bitmap != null) {
                 showImage(bitmap);
             }

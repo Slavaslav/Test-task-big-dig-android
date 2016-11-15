@@ -3,4 +3,5 @@
     <string name="no_image">A link does not point to an image</string>
     <string name="error_handling_uri">Error during handling uri</string>
     <string name="image_successfully_downloaded">Image successfully downloaded</string>
+    <string name="link_was_removed">The link was removed</string>
 </resources>
