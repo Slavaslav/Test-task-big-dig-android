@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.myapplication.testtaskbigdig1.HistoryFragment">
+    <item
+        android:id="@+id/sort_by_date"
+        android:orderInCategory="100"
+        android:title="@string/sort_by_date"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/sort_by_status"
+        android:orderInCategory="200"
+        android:title="@string/sort_by_status"
+        app:showAsAction="never" />
+</menu>

@@ -39,6 +39,7 @@ public class TestFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startTaskBigDig2(editText.getText().toString());
+                editText.setText("");
             }
         });
         return view;

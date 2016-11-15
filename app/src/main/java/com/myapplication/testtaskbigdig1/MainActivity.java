@@ -42,6 +42,13 @@ public class MainActivity extends AppCompatActivity implements HistoryFragment.O
                 System.out.println(String.format("id = %d, uri = %s, status = %d, date = %s", c.getInt(idColIndex), c.getString(uriColIndex), c.getInt(statusColIndex), c.getString(dateColIndex)));
             } while (c.moveToNext());
         }*/
+
+        // clear table
+        /*BigDigProvider.DBHelper dbHelper = new BigDigProvider.DBHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.execSQL("delete from " + BigDigProvider.IMAGE_TABLE_NAME);
+        db.close();
+        dbHelper.close();*/
     }
 
     private void setupViewPager(ViewPager viewPager) {
