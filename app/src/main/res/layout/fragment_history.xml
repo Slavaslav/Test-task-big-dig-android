@@ -4,9 +4,8 @@
     android:layout_height="match_parent"
     tools:context="com.myapplication.testtaskbigdig1.HistoryFragment">
 
-    <TextView
+    <ListView
+        android:id="@+id/list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="fragment history" />
-
+        android:layout_height="match_parent" />
 </FrameLayout>

@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
             if (values != null && values[0] != null) {
-                Utils.showToast(MainActivity.this, values[0], Toast.LENGTH_LONG);
+                Toast.makeText(MainActivity.this, values[0], Toast.LENGTH_LONG).show();
             }
         }
 
