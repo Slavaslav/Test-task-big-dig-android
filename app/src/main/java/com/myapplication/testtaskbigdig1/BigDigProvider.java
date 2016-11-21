@@ -21,9 +21,6 @@ public class BigDigProvider extends ContentProvider {
     static final String ASC = " ASC";
     static final String DESC = " DESC";
     static final String SORT = "sort";
-    static final String OPERATION_TYPE = "operation_type";
-    static final String OPERATION_CREATE = "operation_create";
-    static final String OPERATION_UPDATE = "operation_update";
     private static final int IMAGES = 1;
     private static final int IMAGE_ID = 2;
     private static final UriMatcher uriMatcher;

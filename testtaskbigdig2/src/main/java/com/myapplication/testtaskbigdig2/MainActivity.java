@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
+    static final String OPERATION_TYPE = "operation_type";
+    static final String OPERATION_CREATE = "operation_create";
+    static final String OPERATION_UPDATE = "operation_update";
     private ProgressBar progressBar;
     private ImageView imageView;
     private TextView textView;
@@ -37,12 +40,12 @@ public class MainActivity extends AppCompatActivity {
         String action = intent.getAction();
         if (Intent.ACTION_SEND.equals(action)) {
             Bundle bundle = intent.getExtras();
-            String operationType = (String) bundle.get(ContentProviderHelper.OPERATION_TYPE);
+            String operationType = (String) bundle.get(OPERATION_TYPE);
             if (operationType != null) {
                 String uri = (String) bundle.get(ContentProviderHelper.IMAGE_COLUMN_URI);
-                if (operationType.equals(ContentProviderHelper.OPERATION_CREATE)) {
+                if (operationType.equals(OPERATION_CREATE)) {
                     new HandleURIImage().execute(uri);
-                } else if (operationType.equals(ContentProviderHelper.OPERATION_UPDATE)) {
+                } else if (operationType.equals(OPERATION_UPDATE)) {
                     String id = (String) bundle.get(ContentProviderHelper.IMAGE_COLUMN_ID);
                     String status = (String) bundle.get(ContentProviderHelper.IMAGE_COLUMN_STATUS);
                     new HandleURIImage().execute(uri, id, status);

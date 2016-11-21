@@ -14,6 +14,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements HistoryFragment.OnFragmentInteractionListener, TestFragment.OnFragmentInteractionListener {
 
+    static final String OPERATION_TYPE = "operation_type";
+    static final String OPERATION_CREATE = "operation_create";
+    static final String OPERATION_UPDATE = "operation_update";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
