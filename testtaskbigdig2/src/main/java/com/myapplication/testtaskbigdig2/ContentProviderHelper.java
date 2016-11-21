@@ -8,6 +8,9 @@ class ContentProviderHelper {
     static final String IMAGE_COLUMN_ID = "_id";
     static final String IMAGE_COLUMN_URI = "uri";
     static final String IMAGE_COLUMN_STATUS = "status";
+    static final String OPERATION_TYPE = "operation_type";
+    static final String OPERATION_CREATE = "operation_create";
+    static final String OPERATION_UPDATE = "operation_update";
     private static final Uri IMAGE_CONTENT_URI = Uri.parse("content://com.myapplication.testtaskbigdig1.provider.BigGig/images");
     private static final String IMAGE_COLUMN_DATE = "date";
 

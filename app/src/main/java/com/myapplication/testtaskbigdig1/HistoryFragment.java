@@ -52,6 +52,7 @@ public class HistoryFragment extends Fragment implements LoaderManager.LoaderCal
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 ViewHolder holder = (ViewHolder) view.getTag();
                 Bundle bundle = new Bundle();
+                bundle.putString(BigDigProvider.OPERATION_TYPE, BigDigProvider.OPERATION_UPDATE);
                 bundle.putString(BigDigProvider.IMAGE_COLUMN_ID, String.valueOf(holder.id));
                 bundle.putString(BigDigProvider.IMAGE_COLUMN_URI, holder.textUri.getText().toString());
                 bundle.putString(BigDigProvider.IMAGE_COLUMN_STATUS, String.valueOf(holder.status));

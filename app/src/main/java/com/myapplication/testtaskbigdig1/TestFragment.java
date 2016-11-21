@@ -40,6 +40,7 @@ public class TestFragment extends Fragment {
                     editText.setError(getString(R.string.field_cannot_be_empty));
                 } else {
                     Bundle bundle = new Bundle();
+                    bundle.putString(BigDigProvider.OPERATION_TYPE, BigDigProvider.OPERATION_CREATE);
                     bundle.putString(BigDigProvider.IMAGE_COLUMN_URI, editText.getText().toString());
                     editText.setText("");
                     mListener.startTaskBigDig2(bundle);

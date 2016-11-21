@@ -37,13 +37,16 @@ public class MainActivity extends AppCompatActivity {
         String action = intent.getAction();
         if (Intent.ACTION_SEND.equals(action)) {
             Bundle bundle = intent.getExtras();
-            String id = (String) bundle.get(ContentProviderHelper.IMAGE_COLUMN_ID);
-            String uri = (String) bundle.get(ContentProviderHelper.IMAGE_COLUMN_URI);
-            String status = (String) bundle.get(ContentProviderHelper.IMAGE_COLUMN_STATUS);
-            if (id != null) {
-                new HandleURIImage().execute(uri, id, status);
-            } else {
-                new HandleURIImage().execute(uri);
+            String operationType = (String) bundle.get(ContentProviderHelper.OPERATION_TYPE);
+            if (operationType != null) {
+                String uri = (String) bundle.get(ContentProviderHelper.IMAGE_COLUMN_URI);
+                if (operationType.equals(ContentProviderHelper.OPERATION_CREATE)) {
+                    new HandleURIImage().execute(uri);
+                } else if (operationType.equals(ContentProviderHelper.OPERATION_UPDATE)) {
+                    String id = (String) bundle.get(ContentProviderHelper.IMAGE_COLUMN_ID);
+                    String status = (String) bundle.get(ContentProviderHelper.IMAGE_COLUMN_STATUS);
+                    new HandleURIImage().execute(uri, id, status);
+                }
             }
         } else if (Intent.ACTION_MAIN.equals(action)) {
             closeApplicationByTimer();
